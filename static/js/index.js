@@ -31,6 +31,7 @@ async function handleAnalyseTerms(event) {
 
     let results = document.getElementById("results");
     results.classList.remove("visually-hidden");
+    results.innerHTML = "";
 
     let html = `
         <div class="card mb-3">
@@ -58,16 +59,12 @@ async function handleAnalyseTerms(event) {
         </div>`;
 
     let card = parseHTML(html);
-    
     results.appendChild(card);
 }
 
 function main() {
-    console.log("hello world")
-
     let sendTos = document.getElementById("form-send-tos");
     sendTos.onsubmit = handleAnalyseTerms;
-
 }
 
 document.addEventListener("DOMContentLoaded", main);
