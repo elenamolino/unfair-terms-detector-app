@@ -1,0 +1,9 @@
+.no-resize{
+    resize: none;
+    margin-bottom: 0;
+}
+
+
+.btn-opacity {
+    opacity: 0.2;
+}

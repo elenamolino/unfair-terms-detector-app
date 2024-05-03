@@ -12,22 +12,22 @@
     <link rel="manifest" href="/unfair-terms-detector-app/manifest.json" />
     <title>React App</title>
     <script defer="defer" src="/unfair-terms-detector-app/static/js/main.44c82b23.js"></script>
+    <link rel="stylesheet" href="static/css/style.css">
     <link href="/unfair-terms-detector-app/static/css/main.fccc8c9b.css" rel="stylesheet">
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
     <link rel="stylesheet" href="static/css/font-awesome.min.css">
     <script src="static/js/libs/bootstrap.min.js"></script>
+    <script src="static/js/index.js" type="module"></script>
 </head>
 
 <body><noscript>You need to enable JavaScript to run this app.</noscript>
-    <div id="root"></div>
-
     <div class="container mt-5">
         <div class="row">
             <div class="col">
                 <h1 class="text-center mb-4">Unfair Terms Detector</h1>
-                <form>
+                <form id="form-send-tos">
                     <div class="input-group">
-                        <textarea class="form-control" rows="2" placeholder="Enter terms of service here...">
+                        <textarea class="form-control no-resize" rows="2" placeholder="Enter terms of service here...">
                         </textarea>
                         <button class="btn btn-primary" id="tos-button" type="submit">
                             Send
@@ -39,32 +39,34 @@
         <div class="row mt-3">
             <div class="col">
                 <p class='alert alert-primary'>Nothing to display yet. Submit your unfair terms now!</p>
-                <ul class="list-group list-group-flush">
-                    <div class="card mb-3">
-                        <div class="card-body">
-                            <p class="card-text">With supporting text below as a natural lead-in to additional
-                                content.</p>
+                <div id="results" class="visually-hidden"> 
+                    <ul class="list-group list-group-flush">
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <p class="card-text">With supporting text below as a natural lead-in to additional
+                                    content.</p>
+                            </div>
+                            <div class="card-footer text-muted">
+                                <span id="t-a" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
+                                    title="0%">Arbitration</span>
+                                <span id="t-j" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
+                                    title="0%">Jurisdiction</span>
+                                <span id="t-law" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
+                                    title="0%">Choice of Law</span>
+                                <span id="t-ltd" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
+                                    title="0%">Limitation of Liability</span>
+                                <span id="t-ch" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
+                                    title="0%">Unilateral Change</span>
+                                <span id="t-use" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
+                                    title="0%">Contract by Using</span>
+                                <span id="t-ter" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
+                                    title="0%">Unilateral Terminatio</span>
+                                <span id="t-cr" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
+                                    title="0%">Content Removal</span>
+                            </div>
                         </div>
-                        <div class="card-footer text-muted">
-                            <span id="t1-a" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip" title="57%"
-                                style="opacity: 1.0;">Arbitration</span>
-                            <span id="t1-j" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip" title="57%"
-                                style="opacity: 0.2;">Jurisdiction</span>
-                            <span id="t1-law" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip" title="57%" style="opacity: 0.2;">Choice of
-                                Law</span>
-                            <span id="t1-ltd" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip" title="57%"
-                                style="opacity: 1.0;">Limitation of Liability</span>
-                            <span id="t1-ch" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip" title="57%" style="opacity: 0.2;">Unilateral
-                                Change</span>
-                            <span id="t1-use" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip" title="57%" style="opacity: 0.2;">Contract
-                                by Using</span>
-                            <span id="t1-ter" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip" title="57%"
-                                style="opacity: 0.2;">Unilateral Terminatio</span>
-                            <span id="t1-cr" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip" title="57%" style="opacity: 0.2;">Content
-                                Removal</span>
-                        </div>
-                    </div>
-                </ul>
+                    </ul>
+                </div>
             </div>
         </div>
     </div>

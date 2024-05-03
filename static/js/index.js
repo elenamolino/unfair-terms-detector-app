@@ -1,15 +1,19 @@
 "use strict";
 
 
-function handleEditPhoto(event){
+function handleAnalyseTerms(event) {
     // call model
+
+    console.log("call model")
+    let results = document.getElementById("results");
+    
 }
 
+function main() {
+    console.log("hello world")
 
-async function main() {
-    
-    let sendTos = document.querySelector("#tos-button");
-    sendTos.onclick = handleAnalyseTerms;
+    let sendTos = document.getElementById("form-send-tos");
+    sendTos.onsubmit = handleAnalyseTerms;
 
 }
 
