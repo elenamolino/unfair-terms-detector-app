@@ -22,13 +22,13 @@
 
 <body><noscript>You need to enable JavaScript to run this app.</noscript>
     <div class="container mt-5">
-        <div class="row">
+        <div class="row mb-4">
             <div class="col">
                 <h1 class="text-center mb-4">Unfair Terms Detector</h1>
                 <form id="form-send-tos">
                     <div class="input-group">
-                        <textarea class="form-control no-resize" rows="2" placeholder="Enter terms of service here...">
-                        </textarea>
+                        <textarea name="terms" class="form-control no-resize" rows="2"
+                            placeholder="Enter terms of service here..."></textarea>
                         <button class="btn btn-primary" id="tos-button" type="submit">
                             Send
                         </button>
@@ -38,34 +38,10 @@
         </div>
         <div class="row mt-3">
             <div class="col">
-                <p class='alert alert-primary'>Nothing to display yet. Submit your unfair terms now!</p>
-                <div id="results" class="visually-hidden"> 
-                    <ul class="list-group list-group-flush">
-                        <div class="card mb-3">
-                            <div class="card-body">
-                                <p class="card-text">With supporting text below as a natural lead-in to additional
-                                    content.</p>
-                            </div>
-                            <div class="card-footer text-muted">
-                                <span id="t-a" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
-                                    title="0%">Arbitration</span>
-                                <span id="t-j" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
-                                    title="0%">Jurisdiction</span>
-                                <span id="t-law" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
-                                    title="0%">Choice of Law</span>
-                                <span id="t-ltd" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
-                                    title="0%">Limitation of Liability</span>
-                                <span id="t-ch" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
-                                    title="0%">Unilateral Change</span>
-                                <span id="t-use" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
-                                    title="0%">Contract by Using</span>
-                                <span id="t-ter" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
-                                    title="0%">Unilateral Terminatio</span>
-                                <span id="t-cr" class="me-2 badge bg-primary rounded-pill" data-bs-toggle="tooltip"
-                                    title="0%">Content Removal</span>
-                            </div>
-                        </div>
-                    </ul>
+                <p id="empty-alert" class='alert alert-primary'>Nothing to display yet. Submit your unfair terms now!
+                </p>
+                <div id="results" class="visually-hidden">
+                    
                 </div>
             </div>
         </div>
