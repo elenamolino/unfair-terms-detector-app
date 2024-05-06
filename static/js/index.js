@@ -62,56 +62,56 @@ async function handleAnalyseTerms(event) {
                 <p id="clause" class="card-text">${clauses[clause]}</p>
             </div>
             <div class="card-footer text-muted">
-            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[0] < 0.5 ? "btn-opacity" : ""}">
+            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[0] < 0.5 ? "btn-opacity" : ""}">
             Limitation of liability
                 <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
                     ${(normResults[0] * 100).toFixed(2)}%
                     <span class="visually-hidden">percentage</span>
                 </span>
             </button>
-            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[1] < 0.5 ? "btn-opacity" : ""}">
+            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[1] < 0.5 ? "btn-opacity" : ""}">
                 Unilateral termination
                 <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
                     ${(normResults[1] * 100).toFixed(2)}%
                     <span class="visually-hidden">percentage</span>
                 </span >
             </button >
-            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[2] < 0.5 ? "btn-opacity" : ""}">
+            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[2] < 0.5 ? "btn-opacity" : ""}">
                 Unilateral change
                 <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
                     ${(normResults[2] * 100).toFixed(2)}%
                     <span class="visually-hidden">percentage</span>
                 </span >
             </button >
-            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[3] < 0.5 ? "btn-opacity" : ""}">
+            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[3] < 0.5 ? "btn-opacity" : ""}">
                 Content removal
                 <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
                     ${(normResults[3] * 100).toFixed(2)}%
                     <span class="visually-hidden">percentage</span>
                 </span >
             </button >
-            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[4] < 0.5 ? "btn-opacity" : ""}">
+            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[4] < 0.5 ? "btn-opacity" : ""}">
             Contract by using
                 <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
                     ${(normResults[4] * 100).toFixed(2)}%
                     <span class="visually-hidden">percentage</span>
                 </span >
             </button >
-            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[5] < 0.5 ? "btn-opacity" : ""}">
+            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[5] < 0.5 ? "btn-opacity" : ""}">
             Choice of law
                 <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
                     ${(normResults[5] * 100).toFixed(2)}%
                     <span class="visually-hidden">percentage</span>
                 </span >
             </button >
-            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[6] < 0.5 ? "btn-opacity" : ""}">
+            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[6] < 0.5 ? "btn-opacity" : ""}">
             Jurisdiction
                 <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
                     ${(normResults[6] * 100).toFixed(2)}%
                     <span class="visually-hidden">percentage</span>
                 </span >
             </button >
-            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[7] < 0.5 ? "btn-opacity" : ""}">
+            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[7] < 0.5 ? "btn-opacity" : ""}">
             Arbitration
                 <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
                     ${(normResults[7] * 100).toFixed(2)}%
