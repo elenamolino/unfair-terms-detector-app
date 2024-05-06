@@ -2,6 +2,7 @@
 
 import { AutoModelForSequenceClassification, AutoTokenizer } from "https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0";
 
+
 function softmax(arr) {
     return arr.map(function (value, index) {
         return Math.exp(value) / arr.map(function (y /*value*/) { return Math.exp(y) }).reduce(function (a, b) { return a + b })
@@ -18,58 +19,111 @@ function parseHTML(str) {
     return tmp.body.children[0];
 }
 
+function splitText(terms) {
+    let optional_options = {};
+    console.log(terms)
+    let sentences = tokenizer.sentences(terms, optional_options);
+    console.log(sentences)
+    return sentences
+}
+
 async function handleAnalyseTerms(event) {
     // form data
     event.preventDefault();
     let form = event.target;
     let formData = new FormData(form);
     let terms = formData.get("terms")
-    console.log(terms)
+    let clauses = splitText(terms);
 
+    // Prepare result 
+    let alert = document.getElementById("empty-alert");
+    let results = document.getElementById("results");
+    results.innerHTML = "";
 
     // model
     let tokenizer = await AutoTokenizer.from_pretrained('marmolpen3/lexglue-unfair-tos-onnx', { quantized: false });
     let model = await AutoModelForSequenceClassification.from_pretrained('marmolpen3/lexglue-unfair-tos-onnx', { quantized: false });
-    let input_ids = await tokenizer(terms);
-    let outputs = await model(input_ids);
-    let normResults = sigmoid(outputs.logits.data)
-    console.log(normResults)
+    for (let clause in clauses) {
+        console.log(clauses[clause]);
+        let input_ids = tokenizer(clauses[clause]);
+        console.log(input_ids)
+        let outputs = await model(input_ids);
+        console.log(outputs)
+        let normResults = sigmoid(outputs.logits.data)
+        console.log(normResults)
+        alert.classList.add("visually-hidden");
+        results.classList.remove("visually-hidden");
 
-    // result 
-    let alert = document.getElementById("empty-alert");
-    alert.classList.add("visually-hidden");
 
-    let results = document.getElementById("results");
-    results.classList.remove("visually-hidden");
-    results.innerHTML = "";
 
-    let html = `
+        let html = `
         <div class="card mb-3">
             <div class="card-body">
-                <p id="clause" class="card-text">${terms}</p>
+                <p id="clause" class="card-text">${clauses[clause]}</p>
             </div>
             <div class="card-footer text-muted">
-                <span class="me-2 badge bg-primary rounded-pill ${normResults[0] < 0.5 ? "btn-opacity" : ""}" data-bs-toggle="tooltip"
-                    title="${(normResults[0] * 100).toFixed(2)}%" >Limitation of liability</span>
-                <span class="me-2 badge bg-primary rounded-pill ${normResults[1] < 0.5 ? "btn-opacity" : ""}" data-bs-toggle="tooltip"
-                    title="${(normResults[1] * 100).toFixed(2)}%">Unilateral termination</span>
-                <span class="me-2 badge bg-primary rounded-pill ${normResults[2] < 0.5 ? "btn-opacity" : ""}" data-bs-toggle="tooltip"
-                    title="${(normResults[2] * 100).toFixed(2)}%">Unilateral change</span>
-                <span class="me-2 badge bg-primary rounded-pill ${normResults[3] < 0.5 ? "btn-opacity" : ""}" data-bs-toggle="tooltip"
-                    title="${(normResults[3] * 100).toFixed(2)}%">Content removal</span>
-                <span class="me-2 badge bg-primary rounded-pill ${normResults[4] < 0.5 ? "btn-opacity" : ""}" data-bs-toggle="tooltip"
-                    title="${(normResults[4] * 100).toFixed(2)}%">Contract by using</span>
-                <span class="me-2 badge bg-primary rounded-pill ${normResults[5] < 0.5 ? "btn-opacity" : ""}" data-bs-toggle="tooltip"
-                    title="${(normResults[5] * 100).toFixed(2)}%">Choice of law</span>
-                <span class="me-2 badge bg-primary rounded-pill ${normResults[6] < 0.5 ? "btn-opacity" : ""}" data-bs-toggle="tooltip"
-                    title="${(normResults[6] * 100).toFixed(2)}%">Jurisdiction</span>
-                <span class="me-2 badge bg-primary rounded-pill ${normResults[7] < 0.5 ? "btn-opacity" : ""}" data-bs-toggle="tooltip"
-                    title="${(normResults[7] * 100).toFixed(2)}%">Arbitration</span>
+            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[0] < 0.5 ? "btn-opacity" : ""}">
+            Limitation of liability
+                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
+                    ${(normResults[0] * 100).toFixed(2)}%
+                    <span class="visually-hidden">percentage</span>
+                </span>
+            </button>
+            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[1] < 0.5 ? "btn-opacity" : ""}">
+                Unilateral termination
+                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
+                    ${(normResults[1] * 100).toFixed(2)}%
+                    <span class="visually-hidden">percentage</span>
+                </span >
+            </button >
+            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[2] < 0.5 ? "btn-opacity" : ""}">
+                Unilateral change
+                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
+                    ${(normResults[2] * 100).toFixed(2)}%
+                    <span class="visually-hidden">percentage</span>
+                </span >
+            </button >
+            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[3] < 0.5 ? "btn-opacity" : ""}">
+                Content removal
+                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
+                    ${(normResults[3] * 100).toFixed(2)}%
+                    <span class="visually-hidden">percentage</span>
+                </span >
+            </button >
+            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[4] < 0.5 ? "btn-opacity" : ""}">
+            Contract by using
+                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
+                    ${(normResults[4] * 100).toFixed(2)}%
+                    <span class="visually-hidden">percentage</span>
+                </span >
+            </button >
+            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[5] < 0.5 ? "btn-opacity" : ""}">
+            Choice of law
+                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
+                    ${(normResults[5] * 100).toFixed(2)}%
+                    <span class="visually-hidden">percentage</span>
+                </span >
+            </button >
+            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[6] < 0.5 ? "btn-opacity" : ""}">
+            Jurisdiction
+                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
+                    ${(normResults[6] * 100).toFixed(2)}%
+                    <span class="visually-hidden">percentage</span>
+                </span >
+            </button >
+            <button class="btn btn-sm btn-primary position-relative me-3 my-2 ${normResults[7] < 0.5 ? "btn-opacity" : ""}">
+            Arbitration
+                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
+                    ${(normResults[7] * 100).toFixed(2)}%
+                    <span class="visually-hidden">percentage</span>
+                </span >
+            </button >
             </div>
         </div>`;
 
-    let card = parseHTML(html);
-    results.appendChild(card);
+        let card = parseHTML(html);
+        results.appendChild(card);
+    }
 
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
@@ -77,8 +131,7 @@ async function handleAnalyseTerms(event) {
     })
 }
 
-function main() {
-    console.log("hello world");
+async function main() {
 
     let sendTos = document.getElementById("form-send-tos");
     sendTos.onsubmit = handleAnalyseTerms;
