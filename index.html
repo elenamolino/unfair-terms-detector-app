@@ -26,26 +26,36 @@
         <div class="row mb-4">
             <div class="col">
                 <h1 class="text-center mb-4">Unfair Terms Detector</h1>
-                <form id="form-send-tos">
-                    <div class="input-group">
-                        <textarea name="terms" class="form-control no-resize" rows="2"
-                            placeholder="Enter terms of service here..."></textarea>
-                        <button class="btn btn-primary" id="tos-button" type="submit">
-                            Send
-                        </button>
+                <div class="row mt-3">
+                    <div id="empty-alert" class="col-12 col-lg-10 offset-lg-1">
+                        <p class='alert alert-primary'>Nothing to display yet. Submit your unfair terms
+                            now!
+                        </p>
                     </div>
-                </form>
-            </div>
-        </div>
-        <div class="row mt-3">
-            <div class="col">
-                <p id="empty-alert" class='alert alert-primary'>Nothing to display yet. Submit your unfair terms now!
-                </p>
-                <div id="results" class="visually-hidden">
-                    
                 </div>
+                <div class="row">
+                    <form id="form-send-tos">
+                        <div class="col-12 col-lg-10 offset-lg-1">
+                            <textarea name="terms" class="form-control" rows="5"
+                                placeholder="Enter terms of service here..."></textarea>
+                        </div>
+                        <div class="col-12 my-3 text-center">
+                            <button class="btn btn-primary" id="tos-button" type="submit">
+                                Analyse terms
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 col-lg-10 offset-lg-1">
+                        <div id="results" class="visually-hidden">
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
+
     </div>
 </body>
 

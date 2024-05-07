@@ -36,6 +36,13 @@ async function handleAnalyseTerms(event) {
 
     // Prepare result 
     let alert = document.getElementById("empty-alert");
+    alert.innerHTML = "";
+    let html_loading = `
+    <p class='alert alert-danger'>
+    Terms are being processed, this will take a few minutes, please be patient!</p>`;
+    let alert_loading = parseHTML(html_loading);
+    alert.appendChild(alert_loading);
+    
     let results = document.getElementById("results");
     results.innerHTML = "";
 
@@ -43,14 +50,14 @@ async function handleAnalyseTerms(event) {
     let tokenizer = await AutoTokenizer.from_pretrained('marmolpen3/lexglue-unfair-tos-onnx', { quantized: false });
     let model = await AutoModelForSequenceClassification.from_pretrained('marmolpen3/lexglue-unfair-tos-onnx', { quantized: false });
     for (let clause in clauses) {
-        let input_ids = tokenizer(clauses[clause], {padding: true, truncation: true});
+        let input_ids = tokenizer(clauses[clause], { padding: true, truncation: true });
         let outputs = await model(input_ids);
         let normResults = sigmoid(outputs.logits.data)
 
         alert.classList.add("visually-hidden");
         results.classList.remove("visually-hidden");
 
-        let html = `
+        let html_clauses = `
         <div class="card mb-3 ${normResults.some(x => x > 0.5) ? "border-primary bg-color-card" : ""}">
             <div class="card-body">
                 <p id="clause" class="card-text ${normResults.some(x => x > 0.5) ? "fw-bold" : ""}">${clauses[clause]}</p>
@@ -115,7 +122,7 @@ async function handleAnalyseTerms(event) {
             </div>
         </div>`;
 
-        let card = parseHTML(html);
+        let card = parseHTML(html_clauses);
         results.appendChild(card);
     }
 
