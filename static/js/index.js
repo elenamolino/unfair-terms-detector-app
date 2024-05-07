@@ -21,7 +21,6 @@ function parseHTML(str) {
 
 function splitText(terms) {
     let optional_options = {};
-    console.log(terms)
     let sentences = tokenizer.sentences(terms, optional_options);
     console.log(sentences)
     return sentences
@@ -44,7 +43,7 @@ async function handleAnalyseTerms(event) {
     let tokenizer = await AutoTokenizer.from_pretrained('marmolpen3/lexglue-unfair-tos-onnx', { quantized: false });
     let model = await AutoModelForSequenceClassification.from_pretrained('marmolpen3/lexglue-unfair-tos-onnx', { quantized: false });
     for (let clause in clauses) {
-        let input_ids = tokenizer(clauses[clause]);
+        let input_ids = tokenizer(clauses[clause], {padding: true, truncation: true});
         let outputs = await model(input_ids);
         let normResults = sigmoid(outputs.logits.data)
 
