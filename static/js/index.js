@@ -44,22 +44,17 @@ async function handleAnalyseTerms(event) {
     let tokenizer = await AutoTokenizer.from_pretrained('marmolpen3/lexglue-unfair-tos-onnx', { quantized: false });
     let model = await AutoModelForSequenceClassification.from_pretrained('marmolpen3/lexglue-unfair-tos-onnx', { quantized: false });
     for (let clause in clauses) {
-        console.log(clauses[clause]);
         let input_ids = tokenizer(clauses[clause]);
-        console.log(input_ids)
         let outputs = await model(input_ids);
-        console.log(outputs)
         let normResults = sigmoid(outputs.logits.data)
-        console.log(normResults)
+
         alert.classList.add("visually-hidden");
         results.classList.remove("visually-hidden");
 
-
-
         let html = `
-        <div class="card mb-3">
+        <div class="card mb-3 ${normResults.some(x => x > 0.5) ? "border-primary bg-color-card" : ""}">
             <div class="card-body">
-                <p id="clause" class="card-text">${clauses[clause]}</p>
+                <p id="clause" class="card-text ${normResults.some(x => x > 0.5) ? "fw-bold" : ""}">${clauses[clause]}</p>
             </div>
             <div class="card-footer text-muted">
             <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[0] < 0.5 ? "btn-opacity" : ""}">

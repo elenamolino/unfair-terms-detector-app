@@ -5,10 +5,14 @@
 
 
 .btn-opacity {
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
 .btn-unclick {
     pointer-events: none;
     cursor:default;
+}
+
+.bg-color-card {
+    background-color: rgba(13, 109, 253, 0.05)!important;
 }
