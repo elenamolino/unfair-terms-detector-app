@@ -36,11 +36,11 @@
                 <div class="row">
                     <form id="form-send-tos">
                         <div class="col-12 col-lg-10 offset-lg-1">
-                            <textarea name="terms" class="form-control" rows="5"
-                                placeholder="Enter terms of service here..."></textarea>
+                            <textarea name="terms" minlength="100" class="form-control" rows="5"
+                                placeholder="Enter terms of service here..." required></textarea>
                         </div>
-                        <div class="col-12 my-3 text-center">
-                            <button class="btn btn-primary" id="tos-button" type="submit">
+                        <div id="tos-button" class="col-12 my-3 text-center">
+                            <button class="btn btn-primary" type="submit">
                                 Analyse terms
                             </button>
                         </div>

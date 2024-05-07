@@ -1,17 +1,5 @@
-"use strict";
 
-import { AutoModelForSequenceClassification, AutoTokenizer } from "https://cdn.jsdelivr.net/npm/@xenova/transformers@2.6.0";
-
-
-function softmax(arr) {
-    return arr.map(function (value, index) {
-        return Math.exp(value) / arr.map(function (y /*value*/) { return Math.exp(y) }).reduce(function (a, b) { return a + b })
-    })
-}
-
-function sigmoid(arr) {
-    return arr.map((x) => 1 / (1 + Math.exp(-x)));
-}
+var myModelExecution;
 
 function parseHTML(str) {
     let tmp = document.implementation.createHTMLDocument();
@@ -26,41 +14,41 @@ function splitText(terms) {
     return sentences
 }
 
-async function handleAnalyseTerms(event) {
-    // form data
-    event.preventDefault();
-    let form = event.target;
-    let formData = new FormData(form);
-    let terms = formData.get("terms")
-    let clauses = splitText(terms);
-
-    // Prepare result 
+function prepareResults() {
     let alert = document.getElementById("empty-alert");
-    alert.innerHTML = "";
-    let html_loading = `
-    <p class='alert alert-danger'>
-    Terms are being processed, this will take a few minutes, please be patient!</p>`;
-    let alert_loading = parseHTML(html_loading);
-    alert.appendChild(alert_loading);
-    
     let results = document.getElementById("results");
-    results.innerHTML = "";
+    let btnTos = document.getElementById("tos-button");
+    results.innerHTML = "";    
+    alert.classList.remove("visually-hidden");
+    alert.innerHTML = "";
+    btnTos.innerHTML = "";
+    let htmlLoading = `<p class='alert alert-danger'>
+    Terms are being processed, this will take a few minutes, please be patient!</p>`;
+    let htmlBtnLoading = `
+    <button class="btn btn-primary" type="submit" disabled>
+        <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+        Analysing terms
+    </button>
+    `
+    let alertLoading = parseHTML(htmlLoading);
+    let btnLoading = parseHTML(htmlBtnLoading);
+    alert.appendChild(alertLoading);
+    btnTos.appendChild(btnLoading);
+}
 
-    // model
-    let tokenizer = await AutoTokenizer.from_pretrained('marmolpen3/lexglue-unfair-tos-onnx', { quantized: false });
-    let model = await AutoModelForSequenceClassification.from_pretrained('marmolpen3/lexglue-unfair-tos-onnx', { quantized: false });
-    for (let clause in clauses) {
-        let input_ids = tokenizer(clauses[clause], { padding: true, truncation: true });
-        let outputs = await model(input_ids);
-        let normResults = sigmoid(outputs.logits.data)
+function printResults(resultsList){
 
-        alert.classList.add("visually-hidden");
-        results.classList.remove("visually-hidden");
+    let alert = document.getElementById("empty-alert");
+    let results = document.getElementById("results");
+    let btnTos = document.getElementById("tos-button");
 
-        let html_clauses = `
+    for (let result in resultsList) {
+        let clause = resultsList[result][0];
+        let normResults = resultsList[result][1];
+        let htmlClauses = `
         <div class="card mb-3 ${normResults.some(x => x > 0.5) ? "border-primary bg-color-card" : ""}">
             <div class="card-body">
-                <p id="clause" class="card-text ${normResults.some(x => x > 0.5) ? "fw-bold" : ""}">${clauses[clause]}</p>
+                <p id="clause" class="card-text ${normResults.some(x => x > 0.5) ? "fw-bold" : ""}">${clause}</p>
             </div>
             <div class="card-footer text-muted">
             <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[0] < 0.5 ? "btn-opacity" : ""}">
@@ -122,18 +110,39 @@ async function handleAnalyseTerms(event) {
             </div>
         </div>`;
 
-        let card = parseHTML(html_clauses);
+        let card = parseHTML(htmlClauses);
         results.appendChild(card);
     }
+    alert.classList.add("visually-hidden");
+    results.classList.remove("visually-hidden");
+    btnTos.innerHTML = "";
+    let newHtmlBtnLoading = `<button class="btn btn-primary" type="submit">Analyse terms</button>`
+    let newbtnLoading = parseHTML(newHtmlBtnLoading);
+    btnTos.appendChild(newbtnLoading);
+}
 
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
+async function handleAnalyseTerms(event) {
+    // form data
+    event.preventDefault();
+    let form = event.target;
+    let formData = new FormData(form);
+    let terms = formData.get("terms")
+    let clauses = splitText(terms);
+    prepareResults();
+
+    // model
+    myModelExecution.postMessage(clauses);
 }
 
 async function main() {
 
+    let resultsList;
+    myModelExecution = new Worker("static/js/unfairTosDetection.js", {type: "module"});
+    myModelExecution.onmessage = (e) => {
+        resultsList = e.data;
+        printResults(resultsList);
+        console.log("Message received from worker");
+    };
     let sendTos = document.getElementById("form-send-tos");
     sendTos.onsubmit = handleAnalyseTerms;
 }
