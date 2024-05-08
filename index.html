@@ -34,11 +34,6 @@
                             now!
                         </p>
                     </div>
-                    <div id="download" class="col-12 col-lg-10 offset-lg-1 text-end visually-hidden">
-                        <button id="download-json" class="btn btn-primary">
-                            <i class="bi bi-cloud-download"></i>                 
-                        </button>
-                    </div>
                 </div>
                 <div class="row">
                     <form id="form-send-tos">
@@ -47,8 +42,11 @@
                                 placeholder="Enter terms of service here..." required></textarea>
                         </div>
                         <div id="tos-button" class="col-12 my-3 text-center">
-                            <button class="btn btn-primary" type="submit">
+                            <button id="analyse" class="btn btn-primary" type="submit">
                                 Analyse terms
+                            </button>
+                            <button id="download-json" type="button" class="btn btn-primary disabled">
+                                <i class="bi bi-cloud-download"></i>                 
                             </button>
                         </div>
                     </form>

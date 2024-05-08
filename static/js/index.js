@@ -17,33 +17,31 @@ function splitText(terms) {
 function prepareResults() {
     let alert = document.getElementById("empty-alert");
     let results = document.getElementById("results");
-    let btnTos = document.getElementById("tos-button");
-    let download = document.getElementById("download");
+    let btnAnalyse = document.getElementById("analyse");
+    let btnDownload = document.getElementById("download-json");
+
     results.innerHTML = "";
     alert.innerHTML = "";
-    btnTos.innerHTML = "";
     alert.classList.remove("visually-hidden");
-    download.classList.add("visually-hidden");
+    btnAnalyse.classList.add("disabled");
+    btnDownload.classList.add("disabled");
     let htmlLoading = `<p class='alert alert-danger'>
     Terms are being processed, this will take a few minutes, please be patient!</p>`;
-    let htmlBtnLoading = `
-    <button class="btn btn-primary" type="submit" disabled>
+    
+    let htmlSpinnerLoader = `
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-        Analysing terms
-    </button>
-    `
+        Analysing terms`;
     let alertLoading = parseHTML(htmlLoading);
-    let btnLoading = parseHTML(htmlBtnLoading);
     alert.appendChild(alertLoading);
-    btnTos.appendChild(btnLoading);
+    btnAnalyse.innerHTML = htmlSpinnerLoader;
 }
 
 function printResults(resultsList) {
 
     let alert = document.getElementById("empty-alert");
     let results = document.getElementById("results");
-    let btnTos = document.getElementById("tos-button");
-    let download = document.getElementById("download");
+    let btnAnalyse = document.getElementById("analyse");
+    let btnDownload = document.getElementById("download-json");
 
     for (let result in resultsList) {
         let clause = resultsList[result][0];
@@ -118,12 +116,9 @@ function printResults(resultsList) {
     }
     alert.classList.add("visually-hidden");
     results.classList.remove("visually-hidden");
-    btnTos.innerHTML = "";
-    let newHtmlBtnLoading = `<button class="btn btn-primary" type="submit">Analyse terms</button>`
-    let newbtnLoading = parseHTML(newHtmlBtnLoading);
-    btnTos.appendChild(newbtnLoading);
-    download.classList.remove("visually-hidden");
-
+    btnDownload.classList.remove("disabled");
+    btnAnalyse.classList.remove("disabled");
+    btnAnalyse.innerHTML = "Analyse terms";
 }
 
 async function handleAnalyseTerms(event) {
@@ -139,8 +134,7 @@ async function handleAnalyseTerms(event) {
     myModelExecution.postMessage(clauses);
 }
 
-function handleDownloadJSON() {
-
+function handleDownloadJSON(event) {
     console.log("imprimiendo")
     const jsonData = resultsList.map(entry => ({
         Clause: entry[0],
