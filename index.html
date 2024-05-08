@@ -15,9 +15,11 @@
     <link rel="stylesheet" href="static/css/style.css">
     <link href="/unfair-terms-detector-app/static/css/main.fccc8c9b.css" rel="stylesheet">
     <link rel="stylesheet" href="static/css/bootstrap.min.css">
-    <link rel="stylesheet" href="static/css/font-awesome.min.css">
+    <link rel="stylesheet" href="static/css/fontawesome.min.css">
     <script src="static/js/libs/bootstrap.min.js"></script>
     <script src="static/js/libs/sbd.min.js"></script>
+    <script src="static/js/libs/fontawesome.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <script src="static/js/index.js" type="module"></script>
 </head>
 
@@ -26,11 +28,16 @@
         <div class="row mb-4">
             <div class="col">
                 <h1 class="text-center mb-4">Unfair Terms Detector</h1>
-                <div class="row mt-3">
+                <div class="row my-3">
                     <div id="empty-alert" class="col-12 col-lg-10 offset-lg-1">
                         <p class='alert alert-primary'>Nothing to display yet. Submit your unfair terms
                             now!
                         </p>
+                    </div>
+                    <div id="download" class="col-12 col-lg-10 offset-lg-1 text-end visually-hidden">
+                        <button id="download-json" class="btn btn-primary">
+                            <i class="bi bi-cloud-download"></i>                 
+                        </button>
                     </div>
                 </div>
                 <div class="row">
@@ -55,7 +62,6 @@
 
             </div>
         </div>
-
     </div>
 </body>
 

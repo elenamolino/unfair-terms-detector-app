@@ -1,5 +1,5 @@
-
 var myModelExecution;
+var resultsList;
 
 function parseHTML(str) {
     let tmp = document.implementation.createHTMLDocument();
@@ -18,10 +18,12 @@ function prepareResults() {
     let alert = document.getElementById("empty-alert");
     let results = document.getElementById("results");
     let btnTos = document.getElementById("tos-button");
-    results.innerHTML = "";    
-    alert.classList.remove("visually-hidden");
+    let download = document.getElementById("download");
+    results.innerHTML = "";
     alert.innerHTML = "";
     btnTos.innerHTML = "";
+    alert.classList.remove("visually-hidden");
+    download.classList.add("visually-hidden");
     let htmlLoading = `<p class='alert alert-danger'>
     Terms are being processed, this will take a few minutes, please be patient!</p>`;
     let htmlBtnLoading = `
@@ -36,11 +38,12 @@ function prepareResults() {
     btnTos.appendChild(btnLoading);
 }
 
-function printResults(resultsList){
+function printResults(resultsList) {
 
     let alert = document.getElementById("empty-alert");
     let results = document.getElementById("results");
     let btnTos = document.getElementById("tos-button");
+    let download = document.getElementById("download");
 
     for (let result in resultsList) {
         let clause = resultsList[result][0];
@@ -119,6 +122,8 @@ function printResults(resultsList){
     let newHtmlBtnLoading = `<button class="btn btn-primary" type="submit">Analyse terms</button>`
     let newbtnLoading = parseHTML(newHtmlBtnLoading);
     btnTos.appendChild(newbtnLoading);
+    download.classList.remove("visually-hidden");
+
 }
 
 async function handleAnalyseTerms(event) {
@@ -134,17 +139,49 @@ async function handleAnalyseTerms(event) {
     myModelExecution.postMessage(clauses);
 }
 
-async function main() {
+function handleDownloadJSON() {
 
-    let resultsList;
-    myModelExecution = new Worker("static/js/unfairTosDetection.js", {type: "module"});
+    console.log("imprimiendo")
+    const jsonData = resultsList.map(entry => ({
+        Clause: entry[0],
+        "Limitation of liability": entry[1][0],
+        "Unilateral change": entry[1][1],
+        "Content removal": entry[1][2],
+        "Contract by using": entry[1][3],
+        "Choice of law": entry[1][4],
+        "Jurisdiction": entry[1][5],
+        "Arbitration": entry[1][6]
+    }));
+
+    console.log(jsonData)
+
+    const jsonString = JSON.stringify(jsonData, null, 2);
+    const blob = new Blob([jsonString], { type: 'application/json;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "terms.json");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function main() {
+
+    myModelExecution = new Worker("static/js/unfairTosDetection.js", { type: "module" });
     myModelExecution.onmessage = (e) => {
         resultsList = e.data;
         printResults(resultsList);
+        console.log(resultsList);
         console.log("Message received from worker");
     };
+
     let sendTos = document.getElementById("form-send-tos");
     sendTos.onsubmit = handleAnalyseTerms;
+
+    let download = document.getElementById("download-json");
+    download.onclick = handleDownloadJSON;
 }
 
 document.addEventListener("DOMContentLoaded", main);
