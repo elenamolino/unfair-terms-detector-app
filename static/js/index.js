@@ -139,12 +139,13 @@ function handleDownloadJSON(event) {
     const jsonData = resultsList.map(entry => ({
         Clause: entry[0],
         "Limitation of liability": entry[1][0],
-        "Unilateral change": entry[1][1],
-        "Content removal": entry[1][2],
-        "Contract by using": entry[1][3],
-        "Choice of law": entry[1][4],
-        "Jurisdiction": entry[1][5],
-        "Arbitration": entry[1][6]
+        "Unilateral termination": entry[1][1],
+        "Unilateral change": entry[1][2],
+        "Content removal": entry[1][3],
+        "Contract by using": entry[1][4],
+        "Choice of law": entry[1][5],
+        "Jurisdiction": entry[1][6],
+        "Arbitration": entry[1][7]
     }));
 
     console.log(jsonData)
