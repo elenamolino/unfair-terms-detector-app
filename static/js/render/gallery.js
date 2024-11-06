@@ -34,7 +34,7 @@ const galleryRenderer = {
                 <div class="card-body">
                     <h5 class="card-title text-center">${term.title}</h5>
                     <p class="card-text">${term.date}</p>
-                    <p>Terms: total ${term.clauses.length} - unfair ${unfairTerms}</p>
+                    <p>Total Terms ${term.clauses.length} - Unfair Terms ${unfairTerms}</p>
                 </div>
             </div>
         </div>`;
@@ -42,9 +42,12 @@ const galleryRenderer = {
         return card;
     },
     asDetails: function (tos) {
+        let unfairTerms = tos.clauses.filter(term => term.isUnfair).length;
         let html = `
-        <div class="">
+        <div class="mb-3">
             <h2>${tos.title}</h2>
+            <p class="card-text">${tos.date}</p>
+            <p>Total Terms ${tos.clauses.length} - Unfair Terms ${unfairTerms}</p>
         </div>`;
         let tosDetails = parseHTML(html);
         return tosDetails;

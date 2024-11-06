@@ -30,14 +30,12 @@
                     <div class="row text-center">
                         <div class="col-12 col-lg-10 offset-lg-1">
                             <div class="title-block">
+                                <h1 id="title" class="mb-4">Unfair Terms Detector <i class="fa fa-star"
+                                        aria-hidden="true"></i>
+                                </h1>
+                                <h3 id="subtitle">University of Seville</h3>
                                 <nav class="navbar navbar-expand-lg navbar-light">
                                     <div class="container-fluid">
-                                        <a class="navbar-brand" href="#">Nav</a>
-                                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                                            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false"
-                                            aria-label="Toggle navigation">
-                                            <span class="navbar-toggler-icon"></span>
-                                        </button>
                                         <div class="collapse navbar-collapse" id="navbarNav">
                                             <ul class="navbar-nav">
                                                 <li class="nav-item">
@@ -55,16 +53,56 @@
                     </div>
                 </header>
 
-                <div class="row my-3"></div>
-                    <div class="col-12 d-flex justify-content-between align-items-center my-3">
+                <div class="row mt-4">
+                    <div class="col-12 col-lg-10 offset-lg-1">
                         <div class="flex-grow-1 text-center">
-                            <div id="detail-tos"></div>
+                            <div id="detail-tos">
+                            </div>
                         </div>
                     </div>
                 </div>
-                
+
+                <div id="filter-terms" class="row mt-4 visually-hidden">
+                    <div class="col-12 col-lg-5 offset-lg-1">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
+                                value="all" checked>
+                            <label class="form-check-label" for="inlineRadio1">VIEW ALL</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2"
+                                value="unfair">
+                            <label class="form-check-label" for="inlineRadio2">UNFAIR TERMS</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="likely">
+                            <label class="form-check-label" for="inlineCheckbox3">HIGHEST TO LOWEST</label>
+                        </div>
+                    </div>
+                    <div class="col-12 col-lg-5">
+                        <div class="row">
+                            <div class="col-8">
+                                <input type="range" class="form-range flex-grow-1" min="0" max="100" step="10"
+                                    id="customRange2" value="0"
+                                    oninput="document.getElementById('rangeValue').value = parseInt(this.value);">
+                            </div>
+                            <div class="col-4">
+                                <span class="ms-2">Threshold:</span>
+                                <output id="rangeValue" class="ms-2">0</output>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row mt-4">
+                    <div class="col-12 col-lg-10 offset-lg-1">
+                        <div id="results">
+                        </div>
+                    </div>
+                </div>
+
                 <footer id="footer-block">
-                    &copy; 2024
+                    Made with love &hearts; &copy; 2024
                 </footer>
             </div>
         </div>

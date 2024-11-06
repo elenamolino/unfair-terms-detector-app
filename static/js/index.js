@@ -175,7 +175,6 @@ function main() {
         let result = handleRangeChange(event, resultsListFiltrada);
         printResults(result)
     });
-
 }
 
 document.addEventListener("DOMContentLoaded", main);
