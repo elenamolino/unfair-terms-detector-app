@@ -16,3 +16,32 @@
 .bg-color-card {
     background-color: rgba(13, 109, 253, 0.05)!important;
 }
+
+.title-block {
+    text-align: center;
+    padding-top: 1%;
+    padding-bottom: 1%;
+    border-bottom: 1px solid black;
+}
+
+#title {
+    font-size: 300%;
+    text-decoration: none;
+    color: #737373;
+    font-family: sans-serif;
+    margin-bottom: 0;
+}
+
+#subtitle {
+    font-size: 120%;
+    font-style: italic;
+    color: #8c8c8c;
+    font-family: monospace;
+}
+
+
+#footer-block {
+    text-align: center;
+    margin-top: 20px;
+    color: #737373;
+}

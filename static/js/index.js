@@ -1,5 +1,9 @@
+import { Clause } from './model/clause.js';
+import { handleRadioChange, handleCheckboxChange, handleRangeChange } from './utils/filter.js'
+
 var myModelExecution;
 var resultsList;
+var resultsListFiltrada;
 
 function parseHTML(str) {
     let tmp = document.implementation.createHTMLDocument();
@@ -19,7 +23,9 @@ function prepareResults() {
     let results = document.getElementById("results");
     let btnAnalyse = document.getElementById("analyse");
     let btnDownload = document.getElementById("download-json");
+    let filterForm = document.getElementById("filter-terms");
 
+    filterForm.classList.add("visually-hidden");
     results.innerHTML = "";
     alert.innerHTML = "";
     alert.classList.remove("visually-hidden");
@@ -27,7 +33,7 @@ function prepareResults() {
     btnDownload.classList.add("disabled");
     let htmlLoading = `<p class='alert alert-danger'>
     Terms are being processed, this will take a few minutes, please be patient!</p>`;
-    
+
     let htmlSpinnerLoader = `
         <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
         Analysing terms`;
@@ -36,85 +42,51 @@ function prepareResults() {
     btnAnalyse.innerHTML = htmlSpinnerLoader;
 }
 
-function printResults(resultsList) {
+function buttonHTML(buttonName, value) {
+    return `
+    <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${value < 0.5 ? "btn-opacity" : ""}">
+        ${buttonName}
+        <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
+            ${(value * 100).toFixed(2)}%
+            <span class="visually-hidden">percentage</span>
+        </span>
+    </button>`;
+}
+
+function printResults(r) {
 
     let alert = document.getElementById("empty-alert");
     let results = document.getElementById("results");
     let btnAnalyse = document.getElementById("analyse");
     let btnDownload = document.getElementById("download-json");
+    let filterForm = document.getElementById("filter-terms");
 
-    for (let result in resultsList) {
-        let clause = resultsList[result][0];
-        let normResults = resultsList[result][1];
-        let htmlClauses = `
-        <div class="card mb-3 ${normResults.some(x => x > 0.5) ? "border-primary bg-color-card" : ""}">
-            <div class="card-body">
-                <p id="clause" class="card-text ${normResults.some(x => x > 0.5) ? "fw-bold" : ""}">${clause}</p>
-            </div>
-            <div class="card-footer text-muted">
-            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[0] < 0.5 ? "btn-opacity" : ""}">
-            Limitation of liability
-                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
-                    ${(normResults[0] * 100).toFixed(2)}%
-                    <span class="visually-hidden">percentage</span>
-                </span>
-            </button>
-            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[1] < 0.5 ? "btn-opacity" : ""}">
-                Unilateral termination
-                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
-                    ${(normResults[1] * 100).toFixed(2)}%
-                    <span class="visually-hidden">percentage</span>
-                </span >
-            </button >
-            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[2] < 0.5 ? "btn-opacity" : ""}">
-                Unilateral change
-                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
-                    ${(normResults[2] * 100).toFixed(2)}%
-                    <span class="visually-hidden">percentage</span>
-                </span >
-            </button >
-            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[3] < 0.5 ? "btn-opacity" : ""}">
-                Content removal
-                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
-                    ${(normResults[3] * 100).toFixed(2)}%
-                    <span class="visually-hidden">percentage</span>
-                </span >
-            </button >
-            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[4] < 0.5 ? "btn-opacity" : ""}">
-            Contract by using
-                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
-                    ${(normResults[4] * 100).toFixed(2)}%
-                    <span class="visually-hidden">percentage</span>
-                </span >
-            </button >
-            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[5] < 0.5 ? "btn-opacity" : ""}">
-            Choice of law
-                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
-                    ${(normResults[5] * 100).toFixed(2)}%
-                    <span class="visually-hidden">percentage</span>
-                </span >
-            </button >
-            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[6] < 0.5 ? "btn-opacity" : ""}">
-            Jurisdiction
-                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
-                    ${(normResults[6] * 100).toFixed(2)}%
-                    <span class="visually-hidden">percentage</span>
-                </span >
-            </button >
-            <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${normResults[7] < 0.5 ? "btn-opacity" : ""}">
-            Arbitration
-                <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
-                    ${(normResults[7] * 100).toFixed(2)}%
-                    <span class="visually-hidden">percentage</span>
-                </span >
-            </button >
-            </div>
-        </div>`;
-
-        let card = parseHTML(htmlClauses);
-        results.appendChild(card);
+    let htmlClauses = '';
+    if (r.length === 0) {
+        htmlClauses = `<div>No terms with these conditions</div>`;
+    } else {
+        r.forEach(clause => {
+            htmlClauses += `
+            <div class="card mb-3 ${clause.isUnfair ? "border-primary bg-color-card" : ""}">
+                <div class="card-body">
+                    <p id="clause" class="card-text ${clause.isUnfair ? "fw-bold" : ""}">${clause.term}</p>
+                </div>
+                <div class="card-footer text-muted">
+                    ${buttonHTML('Limitation of liability', clause.ltd)}
+                    ${buttonHTML('Unilateral termination', clause.ter)}
+                    ${buttonHTML('Unilateral change', clause.ch)}
+                    ${buttonHTML('Content removal', clause.cr)}
+                    ${buttonHTML('Contract by using', clause.use)}
+                    ${buttonHTML('Choice of law', clause.law)}
+                    ${buttonHTML('Jurisdiction', clause.j)}
+                    ${buttonHTML('Arbitration', clause.a)}
+                </div>
+            </div>`;
+        });
     }
+    results.innerHTML = htmlClauses;
     alert.classList.add("visually-hidden");
+    filterForm.classList.remove("visually-hidden");
     results.classList.remove("visually-hidden");
     btnDownload.classList.remove("disabled");
     btnAnalyse.classList.remove("disabled");
@@ -137,17 +109,17 @@ async function handleAnalyseTerms(event) {
 function handleDownloadJSON(event) {
     console.log("imprimiendo")
     const jsonData = resultsList.map(entry => ({
-        Clause: entry[0],
-        "Limitation of liability": entry[1][0],
-        "Unilateral termination": entry[1][1],
-        "Unilateral change": entry[1][2],
-        "Content removal": entry[1][3],
-        "Contract by using": entry[1][4],
-        "Choice of law": entry[1][5],
-        "Jurisdiction": entry[1][6],
-        "Arbitration": entry[1][7]
+        "Term": entry.term,
+        "isUnfair": entry.isUnfair,
+        "Limitation of liability": entry.ltd,
+        "Unilateral termination": entry.ter,
+        "Unilateral change": entry.ch,
+        "Content removal": entry.cr,
+        "Contract by using": entry.use,
+        "Choice of law": entry.law,
+        "Jurisdiction": entry.j,
+        "Arbitration": entry.a
     }));
-
     console.log(jsonData)
 
     const jsonString = JSON.stringify(jsonData, null, 2);
@@ -166,9 +138,12 @@ function main() {
 
     myModelExecution = new Worker("static/js/unfairTosDetection.js", { type: "module" });
     myModelExecution.onmessage = (e) => {
-        resultsList = e.data;
+        resultsList = e.data.map(item => new Clause(
+            item.term, item.ltd, item.ter, item.ch, item.cr, item.use, item.law, item.j, item.a
+        ));
+        resultsListFiltrada = [...resultsList];
+        console.log(resultsList)
         printResults(resultsList);
-        console.log(resultsList);
         console.log("Message received from worker");
     };
 
@@ -177,6 +152,30 @@ function main() {
 
     let download = document.getElementById("download-json");
     download.onclick = handleDownloadJSON;
+
+    let radioButtons = document.querySelectorAll('input[type="radio"][name="inlineRadioOptions"]');
+    radioButtons.forEach(function (radio) {
+        radio.addEventListener('change', function (event) {
+            let result = handleRadioChange(event, resultsList, resultsListFiltrada);
+            resultsListFiltrada = [...result];
+            printResults(result)
+        });
+    });
+
+    let checkbox = document.getElementById('inlineCheckbox3');
+    checkbox.addEventListener('change', function (event) {
+        console.log(resultsList === resultsListFiltrada)
+        let result = handleCheckboxChange(event, resultsList, resultsListFiltrada);
+        resultsListFiltrada = [...result];
+        printResults(result)
+    });
+
+    let range = document.getElementById('customRange2');
+    range.addEventListener('input', function (event) {
+        let result = handleRangeChange(event, resultsListFiltrada);
+        printResults(result)
+    });
+
 }
 
 document.addEventListener("DOMContentLoaded", main);
