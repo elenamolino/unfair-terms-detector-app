@@ -69,12 +69,14 @@ export function handleCheckboxChange(event, resultsList, resultsListFiltrada) {
 
     } else {
         let unfairSelect = document.getElementById('inlineRadio2').checked;
+        console.log(unfairSelect)
         if (unfairSelect) {
             let filteredResults = resultsList.filter(clause => clause.isUnfair);
             return filteredResults;
         } else {
             console.log('Lista no ordenada:', resultsList);
-            return resultsList;
+            let filteredResults = [...resultsList];
+            return filteredResults;
         }
     }
 }
