@@ -30,7 +30,7 @@ const galleryRenderer = {
         <div class="col-md-4">
             <div class="card card-tam mb-3">
                 <a href="term_detail.html?termId=${term.id}">    
-                <img src="${term.icon}" class="card-img-top">   
+                <img src="${term.icon}" class="card-img-top" style="height: 100px; object-fit: contain;">   
                 </a>         
                 <div class="card-body">
                     <a href="${term.url}" target="_blank">  
