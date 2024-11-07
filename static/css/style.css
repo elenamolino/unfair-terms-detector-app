@@ -45,3 +45,17 @@
     margin-top: 20px;
     color: #737373;
 }
+
+.card-tam {
+    min-height: 300px;
+}
+
+:root {
+    --bd-blue-bg: #007bff; /* Bootstrap's blue color */
+    --bs-white: #ffffff; /* Pure white */
+  }
+  
+.custom-tooltip {
+    --bs-tooltip-bg: var(--bd-blue-bg) !important;
+    --bs-tooltip-color: var(--bs-white) !important;
+  }

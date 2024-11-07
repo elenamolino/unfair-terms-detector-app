@@ -10,9 +10,20 @@ var resultsList;
 var resultsListFiltrada;
 
 
-function buttonHTML(buttonName, value) {
+function addTooltip(){
+    console.log("Tooltip")
+    console.log(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
+    tooltipTriggerList.forEach(tooltipTriggerEl => {
+        new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+}
+
+
+function buttonHTML(buttonName, value, explanation) {
     return `
-    <button class="btn btn-sm btn-primary btn-unclick position-relative me-3 my-2 ${value < 0.5 ? "btn-opacity" : ""}">
+    <button type="button" class="btn btn-sm btn-primary position-relative me-5 my-2 ${value < 0.5 ? "btn-opacity" : ""}" data-bs-toggle="tooltip" data-bs-placement="top"
+data-bs-title="${explanation}" data-bs-custom-class="custom-tooltip">
         ${buttonName}
         <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
             ${(value * 100).toFixed(2)}%
@@ -20,6 +31,7 @@ function buttonHTML(buttonName, value) {
         </span>
     </button>`;
 }
+
 
 function printResults(r) {
     let results = document.getElementById("results");
@@ -35,21 +47,22 @@ function printResults(r) {
                 <div class="card-body">
                     <p id="clause" class="card-text ${clause.isUnfair ? "fw-bold" : ""}">${clause.term}</p>
                 </div>
-                <div class="card-footer text-muted">
-                    ${buttonHTML('Limitation of liability', clause.ltd)}
-                    ${buttonHTML('Unilateral termination', clause.ter)}
-                    ${buttonHTML('Unilateral change', clause.ch)}
-                    ${buttonHTML('Content removal', clause.cr)}
-                    ${buttonHTML('Contract by using', clause.use)}
-                    ${buttonHTML('Choice of law', clause.law)}
-                    ${buttonHTML('Jurisdiction', clause.j)}
-                    ${buttonHTML('Arbitration', clause.a)}
+                 <div class="card-footer text-muted">
+                    ${buttonHTML('Liability', clause.ltd, "To restrict the amount or type of damages that a party may claim")}
+                    ${buttonHTML('Termination', clause.ter, "Unilaterally terminate contract or access to service")}
+                    ${buttonHTML('Change', clause.ch, "Unilaterally modify contract or service")}
+                    ${buttonHTML('C. Removal', clause.cr, "Unilaterally remove the consumer's content")}
+                    ${buttonHTML('Using', clause.use, "Use of the service implies acceptance of the agreement")}
+                    ${buttonHTML('Law', clause.law, "Selection of a foreign law to govern the ToS")}
+                    ${buttonHTML('Jurisdiction', clause.j, "Designating a foreign jurisdiction for resolving consumer disputes")}
+                    ${buttonHTML('Arbitration', clause.a, "Requires arbitration before legal action can be initiated")}
                 </div>
             </div>`;
         });
     }
     results.innerHTML = htmlClauses;
     filterForm.classList.remove("visually-hidden");
+    addTooltip()
 }
 
 

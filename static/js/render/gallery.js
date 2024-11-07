@@ -27,7 +27,7 @@ const galleryRenderer = {
         let unfairTerms = term.clauses.filter(term => term.isUnfair).length;
         let html = `
         <div class="col-md-4">
-            <div class="card">
+            <div class="card card-tam">
                 <a href="term_detail.html?termId=${term.id}">    
                 <img src="${term.icon}" class="card-img-top">   
                 </a>         
