@@ -1,5 +1,5 @@
 import { galleryRenderer } from './render/gallery.js';
-import { terms_summary } from './data/data.js';
+import { terms } from './data/data.js';
 
 function handleMouseEnter(event) {
     let card = event.target;
@@ -15,7 +15,7 @@ async function loadAllToS(){
 
     let container = document.getElementById("gallery");
     try{
-        let list_terms = terms_summary;
+        let list_terms = terms;
         console.log(list_terms);
         let gallery = galleryRenderer.asCardGallery(list_terms);
         container.appendChild(gallery);

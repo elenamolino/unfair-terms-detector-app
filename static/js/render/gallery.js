@@ -53,7 +53,7 @@ const galleryRenderer = {
         <div class="mb-3">
             <h2>${tos.title}</h2>
             <p class="card-text">${tos.date}</p>
-            <p>Total Terms ${tos.clauses.length} - Unfair Terms ${unfairTerms}</p>
+            <p>Total Terms <span class="badge text-bg-primary">${tos.clauses.length}</span> - Unfair Terms <span class="badge text-bg-danger">${unfairTerms}</span></p>
         </div>`;
         let tosDetails = parseHTML(html);
         return tosDetails;

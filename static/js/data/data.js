@@ -1,4 +1,4 @@
-export let terms_summary = [
+export let terms = [
   {
     title: "Overleaf terms of Service",
     description: "",

@@ -1,4 +1,4 @@
-import { terms_summary } from './data/data.js';
+import { terms } from './data/data.js';
 import { galleryRenderer } from './render/gallery.js';
 import { handleRadioChange, handleCheckboxChange, handleRangeChange } from './utils/filter.js'
 
@@ -19,7 +19,6 @@ function addTooltip(){
     });
 }
 
-
 function buttonHTML(buttonName, value, explanation) {
     return `
     <button type="button" class="btn btn-sm btn-primary position-relative me-4 my-2 ${value < 0.5 ? "btn-opacity" : ""}" data-bs-toggle="tooltip" data-bs-placement="top"
@@ -31,7 +30,6 @@ data-bs-title="${explanation}" data-bs-custom-class="custom-tooltip">
         </span>
     </button>`;
 }
-
 
 function printResults(r) {
     let results = document.getElementById("results");
@@ -70,7 +68,7 @@ async function loadToSById(){
 
         let container = document.getElementById("detail-tos");
         try{
-            let list_terms = terms_summary;
+            let list_terms = terms;
             let tos = list_terms.find(term => term.id === termId);
             resultsList = tos.clauses;
             resultsListFiltrada = tos.clauses;
