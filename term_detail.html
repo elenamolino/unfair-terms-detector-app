@@ -68,7 +68,7 @@
                 </div>
 
                 <div id="filter-terms" class="row mt-4 visually-hidden">
-                    <div class="col-12 col-lg-5 offset-lg-1">
+                    <div class="col-12 col-lg-4 offset-lg-1 mb-3">
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1"
                                 value="all" checked>
@@ -81,17 +81,32 @@
                         </div>
                         <div class="form-check form-check-inline">
                             <input class="form-check-input" type="checkbox" id="inlineCheckbox3" value="likely">
-                            <label class="form-check-label" for="inlineCheckbox3">HIGHEST TO LOWEST</label>
+                            <label class="form-check-label" for="inlineCheckbox3">HIGH TO LOW</label>
                         </div>
                     </div>
-                    <div class="col-12 col-lg-5">
+
+                    <div class="col-12 col-md-6 col-lg-2 mb-3">
+                        <select class="form-select form-select-sm" id="unfair-type">
+                            <option selected value="0">Select type</option>
+                            <option value="1">Liability</option>
+                            <option value="2">Termination</option>
+                            <option value="3">Change</option>
+                            <option value="4">C. Removal</option>
+                            <option value="5">Contract by using</option>
+                            <option value="6">Law</option>
+                            <option value="7">Jurisdiction</option>
+                            <option value="8">Arbitration</option>
+                        </select>
+                    </div>
+
+                    <div class="col-12 col-md-6 col-lg-4">
                         <div class="row">
-                            <div class="col-8">
+                            <div class="col-7">
                                 <input type="range" class="form-range flex-grow-1" min="0" max="100" step="10"
                                     id="customRange2" value="0"
                                     oninput="document.getElementById('rangeValue').value = parseInt(this.value);">
                             </div>
-                            <div class="col-4">
+                            <div class="col-5">
                                 <span class="ms-2">Threshold:</span>
                                 <output id="rangeValue" class="ms-2">0</output>
                             </div>

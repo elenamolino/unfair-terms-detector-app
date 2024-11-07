@@ -1,5 +1,5 @@
 import { Clause } from './model/clause.js';
-import { handleRadioChange, handleCheckboxChange, handleRangeChange } from './utils/filter.js'
+import { handleRadioChange, handleCheckboxChange, handleSelectChange, handleRangeChange } from './utils/filter.js'
 
 var myModelExecution;
 var resultsList;
@@ -43,8 +43,6 @@ function prepareResults() {
 }
 
 function addTooltip(){
-    console.log("Tooltip")
-    console.log(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     tooltipTriggerList.forEach(tooltipTriggerEl => {
         new bootstrap.Tooltip(tooltipTriggerEl)
@@ -179,6 +177,14 @@ function main() {
         let result = handleCheckboxChange(event, resultsList, resultsListFiltrada);
         resultsListFiltrada = [...result];
         printResults(result)
+    });
+
+    let typeSelect = document.getElementById("unfair-type");
+    typeSelect.addEventListener("change", function (event) {
+        console.log(event.target.value)
+        let result = handleSelectChange(event, resultsList, resultsListFiltrada);
+        resultsListFiltrada = [...result]; 
+        printResults(result); 
     });
 
     let range = document.getElementById('customRange2');

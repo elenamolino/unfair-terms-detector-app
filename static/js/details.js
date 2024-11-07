@@ -1,6 +1,6 @@
 import { terms } from './data/data.js';
 import { galleryRenderer } from './render/gallery.js';
-import { handleRadioChange, handleCheckboxChange, handleRangeChange } from './utils/filter.js'
+import { handleRadioChange, handleCheckboxChange, handleSelectChange, handleRangeChange } from './utils/filter.js'
 
 
 let urlParams = new URLSearchParams(window.location.search);
@@ -11,8 +11,6 @@ var resultsListFiltrada;
 
 
 function addTooltip(){
-    console.log("Tooltip")
-    console.log(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]')
     tooltipTriggerList.forEach(tooltipTriggerEl => {
         new bootstrap.Tooltip(tooltipTriggerEl)
@@ -104,6 +102,13 @@ async function main() {
         let result = handleCheckboxChange(event, resultsList, resultsListFiltrada);
         resultsListFiltrada = [...result];
         printResults(result)
+    });
+
+    let typeSelect = document.getElementById("unfair-type");
+    typeSelect.addEventListener("change", function (event) {
+        let result = handleSelectChange(event, resultsList, resultsListFiltrada);
+        resultsListFiltrada = [...result]; 
+        printResults(result); 
     });
 
     let range = document.getElementById('customRange2');
