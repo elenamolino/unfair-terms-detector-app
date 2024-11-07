@@ -22,7 +22,7 @@ function addTooltip(){
 
 function buttonHTML(buttonName, value, explanation) {
     return `
-    <button type="button" class="btn btn-sm btn-primary position-relative me-5 my-2 ${value < 0.5 ? "btn-opacity" : ""}" data-bs-toggle="tooltip" data-bs-placement="top"
+    <button type="button" class="btn btn-sm btn-primary position-relative me-4 my-2 ${value < 0.5 ? "btn-opacity" : ""}" data-bs-toggle="tooltip" data-bs-placement="top"
 data-bs-title="${explanation}" data-bs-custom-class="custom-tooltip">
         ${buttonName}
         <span class="position-absolute top-0 start-80 translate-middle badge rounded-pill bg-secondary">
@@ -52,7 +52,7 @@ function printResults(r) {
                     ${buttonHTML('Termination', clause.ter, "Unilaterally terminate contract or access to service")}
                     ${buttonHTML('Change', clause.ch, "Unilaterally modify contract or service")}
                     ${buttonHTML('C. Removal', clause.cr, "Unilaterally remove the consumer's content")}
-                    ${buttonHTML('Using', clause.use, "Use of the service implies acceptance of the agreement")}
+                    ${buttonHTML('Contract by using', clause.use, "Use of the service implies acceptance of the agreement")}
                     ${buttonHTML('Law', clause.law, "Selection of a foreign law to govern the ToS")}
                     ${buttonHTML('Jurisdiction', clause.j, "Designating a foreign jurisdiction for resolving consumer disputes")}
                     ${buttonHTML('Arbitration', clause.a, "Requires arbitration before legal action can be initiated")}
