@@ -38,7 +38,7 @@ const galleryRenderer = {
                     </a>
                     <p class="card-text">${term.date}</p>
                     <p>Total Terms <span class="badge text-bg-primary">${term.clauses.length}</span> - Unfair Terms <span class="badge text-bg-danger">${unfairTerms}</span></p>
-                    <p>Percentage of unfairness: ${unfairness} %</p>
+                    <p>Percentage of unfairness: <a href="term_detail.html?termId=${term.id}"> ${unfairness} % </a></p>
                     <p>Number of sections: ${term.num_sections}</p>
                     <p>Number of words: ${term.num_words}</p>
                 </div>
