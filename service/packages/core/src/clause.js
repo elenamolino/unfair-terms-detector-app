@@ -15,6 +15,11 @@ export class Clause {
         return this.calcAbusivity();
     }
 
+    get wordCount() {
+        const matches = this.term.trim().match(/\S+/g);
+        return matches ? matches.length : 0;
+    }
+
     calcAbusivity() {
         return this.ltd > 0.5 || this.ter > 0.5 || this.ch > 0.5 ||
             this.cr > 0.5 || this.use > 0.5 || this.law > 0.5 ||

@@ -1,0 +1,12 @@
+{
+  "name": "unfair-tos-detector-service",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "start": "npm run start --workspace=packages/api",
+    "dev": "npm run dev --workspace=packages/api"
+  }
+}
