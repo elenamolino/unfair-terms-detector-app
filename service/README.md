@@ -74,10 +74,12 @@ Respuesta:
 
 `sectionCount` es un heurístico: cuenta líneas que empiezan con numeración de sección de
 nivel superior (`"1. ..."`, `"6 Third party claims"`, `"Section 3: ..."`, `"Article 4"`),
-ignorando subsecciones tipo `"6.1 ..."`. Solo se calcula cuando se manda `text` completo
-(con `clauses` sueltas no hay estructura de líneas del documento original que analizar,
-así que `sectionCount` viene `null`). Al ser heurístico, depende del formato del documento
-de entrada — no es infalible con cualquier ToS.
+ignorando subsecciones tipo `"6.1 ..."`. El número se limita a un máximo de 3 dígitos para
+no confundir cosas como una dirección postal (`"1455 3rd Street"`) con una sección. Solo se
+calcula cuando se manda `text` completo (con `clauses` sueltas no hay estructura de líneas
+del documento original que analizar, así que `sectionCount` viene `null`). Al ser heurístico,
+depende de que el documento numere sus secciones — con ToS que usan solo títulos sin número
+(algunos son así) da `0`, no un error.
 
 El servicio es **sin estado**: no persiste nada. `summary` y `clauses` van listos para que
 el proyecto consumidor los guarde en su propia base de datos.
