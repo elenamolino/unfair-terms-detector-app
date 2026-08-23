@@ -1,0 +1,17 @@
+{
+  "name": "unfair-tos-detector-core",
+  "version": "0.1.0",
+  "description": "Detects unfair clauses in Terms of Service text using the lexglue-unfair-tos-onnx model.",
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "files": [
+    "src"
+  ],
+  "dependencies": {
+    "@xenova/transformers": "2.6.0",
+    "sbd": "1.0.19"
+  }
+}
